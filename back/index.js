@@ -13,8 +13,8 @@ const connectToVMX = async () => {
         <soapenv:Body>
         <omi:signOn>
             <userAttributes>
-                <omit:userName>o.khodorko</omit:userName>
-                <omit:password>Kalambur245245</omit:password>
+                <omit:userName></omit:userName>
+                <omit:password></omit:password>
                 <!--Optional:-->
                 <omit:newPassword>?</omit:newPassword>
             </userAttributes>
