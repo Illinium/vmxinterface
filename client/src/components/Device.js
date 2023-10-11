@@ -1,24 +1,66 @@
+import DeviceProduct from './DeviceProduct';
+import { useRequest } from '../hooks/use-request';
+import { useState } from 'react';
 
 
-function Device() {
+function Device({deviceInfo: {subnum, serial, networkDeviceId, domainPackages, smsDeviceId, smsDomainId}}) {
+    const {doRequest, errors, setErrors} = useRequest();
+    const [successMessage, setSuccessMessage] = useState(null);
+
+    const requestHandler = async (method,  urlEnding) => {
+        setErrors(null)
+        if (!serial && !smsDeviceId) {
+            return setErrors('Message can not be send, Serial Number is missing!')
+        }
+
+        if(!window.confirm(`Do you want to send ${urlEnding} command?`)) {
+            return;
+        }
+
+        const res = await doRequest(method, {smsDeviceId, serialNumber: serial}, urlEnding);
+        if (res) {
+            setSuccessMessage('Trigger was successfully sent!')
+            setTimeout(() => {
+                setSuccessMessage(null)
+            }, 7000)
+        }
+    }
+
     return(
         <li>
+            {
+                successMessage && <div className='successMessage'>
+                        <h5>
+                            {successMessage}
+                        </h5>
+                    </div>
+            }
             <div>
-                <p><strong>Subscription:</strong> 2000296509</p>
-                <p><strong>Serial Number:</strong> 760215032009447</p>
-                <p><strong>Network Device ID:</strong> 8250614932</p>
-                <p><strong>Sms Device ID:</strong> 13E69D0B86B34F98A6E5FDF659B87540</p>
-                <p><strong>Sms Domen ID:</strong> 887F069D36CD4C26BD2BDE8E43C92367</p>
+                <p><strong>Subscription:</strong> {subnum}</p>
+                <p><strong>Serial Number:</strong> {serial}</p>
+                <p><strong>Network Device ID:</strong> {networkDeviceId}</p>
+                <p><strong>Sms Device ID:</strong> {smsDeviceId}</p>
+                <p><strong>Sms Domen ID:</strong> {smsDomainId}</p> 
             </div>
             <div>
-                <h5>Entitlements</h5>
-                <p><strong>V_Nationalniy</strong> - 3A3D772215BB4CA2B4818ED8CDC31F90</p>
+                <h3>Entitlements:</h3>
+                {
+                    domainPackages.map(domainPackage => {
+                        return <DeviceProduct domainPackage={domainPackage} key={domainPackage.smsEntitlementId} />
+                    })
+                }
+                
             </div>
             <div>
-                <button>Send Bouquet</button>
-                <button>FTA Open Trigger</button>
-                <button>Reset Password</button>
-                <button>Force Upgrade</button>
+                {
+                    errors != null && <p>{errors}</p>
+                }
+            </div>
+            <div>
+                {/* <button onClick={() => >Send Bouquet</button> */}
+                <button onClick={() => requestHandler('post', 'fta')}>FTA Open Trigger</button>
+                <button onClick={() => requestHandler('post', 'password')}>Reset Password</button>
+                <button onClick={() => requestHandler('post', 'upgrade')}>Force Upgrade</button>
             </div>
             
         </li>

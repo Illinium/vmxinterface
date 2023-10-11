@@ -1,0 +1,80 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:omi="http://www.verimatrix.com/omi" xmlns:omit="http://www.verimatrix.com/schemas/OMItypes.xsd">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <omi:generatePackageOSM>
+         <messageEntity>
+            <omit:entityType>GLOBAL</omit:entityType>
+            <!-- Дуже важливо лишити поле знизу пустим -->
+            <omit:entityId></omit:entityId>
+            <omit:smsNetworkId>dvb-network</omit:smsNetworkId>
+         </messageEntity>
+         <message>
+            <omit:messageHandle>
+               <omit:sector>232</omit:sector>
+               <!-- Потрібно буде обрати messageId  -->
+               <omit:messageId>10</omit:messageId>
+            </omit:messageHandle>
+            <omit:messageAttributes>
+               <!-- Тільки бокси, які підписани на цей пакет будуть відображати OSM -->
+               <omit:contentMode>POS</omit:contentMode>
+               <!-- Значення вказує, що повідомлення попаде саме в 2ий Стейдж -->
+               <omit:priority>2</omit:priority>
+               <!-- Час життя у стейджі -->
+               <omit:cycleDuration>30</omit:cycleDuration>
+            </omit:messageAttributes>
+            <!-- Текст повідомлення або триггер, тут використовується триггер Балансу для тесту виключно -->
+            <omit:messageText>
+               <omit:text>\0x06VM6591D95D0000000100SUBJECT\0x0DTEST\0x0DTEST str2\0x0DGeneratePackageOSM_TEst2</omit:text>
+            </omit:messageText>
+            <omit:charsetName>UTF-8</omit:charsetName>
+            <!-- Значення, які не впливають на триггер-повідомлення-->
+            <omit:messageDescriptor>
+               <omit:displayMode>RM_IMMED</omit:displayMode>
+               <omit:displayDuration>2</omit:displayDuration>
+               <omit:xOrigin>ORIGL</omit:xOrigin>
+               <omit:xPosition>0</omit:xPosition>
+               <omit:xAnchor>CENTER</omit:xAnchor>
+               <omit:yOrigin>ORIGTOP</omit:yOrigin>
+               <omit:yPosition>0</omit:yPosition>
+               <omit:yAnchor>CENTER</omit:yAnchor>
+               <omit:textAlign>LEFT</omit:textAlign>
+               <omit:bgColor>0</omit:bgColor>
+               <omit:alpha>0</omit:alpha>
+            </omit:messageDescriptor>
+         </message>
+         <packageList>
+            <!--Zero or more repetitions:-->
+            <omit:packages>
+               <!-- Тут вказуємо пакет (V_Nationalniy, V_Premium HD, V_Prestige, V_SIMEYNIY) -->
+               <omit:smsPackageId>Viasat_Engineering_Package</omit:smsPackageId>
+               <!--Optional:-->
+               <omit:description>?</omit:description>
+               <!--Optional:-->
+               <omit:packageAttributes>
+                  <!--Optional:-->
+                  <omit:operatorId>?</omit:operatorId>
+                  <!--Optional:-->
+                  <omit:extendedAccessClassId>?</omit:extendedAccessClassId>
+               </omit:packageAttributes>
+               <!--Optional:-->
+               <omit:packageParameters>
+                  <!--1 or more repetitions:-->
+                  <omit:packageParameter>
+                     <omit:key>?</omit:key>
+                     <omit:value>
+                        <!-- Вказується тип дивайсів -->
+                        <omit:value>STB_DVB_NSC2</omit:value>
+                        <!-- тип значення строка -->
+                        <omit:valueType>STRING</omit:valueType>
+                     </omit:value>
+                  </omit:packageParameter>
+               </omit:packageParameters>
+            </omit:packages>
+         </packageList>
+         <sessionHandle>
+            <!-- Ключ сесії -->
+            <omit:handle>+EqIPu+BRyk+pxzzzZsk3sqWl8A=</omit:handle>
+         </sessionHandle>
+      </omi:generatePackageOSM>
+   </soapenv:Body>
+</soapenv:Envelope>

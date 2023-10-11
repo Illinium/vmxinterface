@@ -16,7 +16,7 @@ spec:
               service:
                 name: vmx-back-srv
                 port:
-                  number: 3000
+                  number: 4000
           - path: /?(.*)
             pathType: Prefix
             backend:

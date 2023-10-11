@@ -10,8 +10,20 @@ const app = express();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 app.set('trust proxy', true);
+
+// Add a list of allowed origins.
+// If you have more origins you would like to add, you can add them to the array below.
+const allowedOrigins = ['http://localhost:4000'];
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+
+// Then pass these options to cors:
+app.use(cors(options));
+
 app.use(json());
-app.use(cors());
+
 
 
 const connectToVMX = async () => {
@@ -85,7 +97,7 @@ app.all('*', async () => {
 
 app.use(errorHandler);
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000!');
+app.listen(4000, () => {
+    console.log('Server is running on port 4000!');
     connectToVMX();
 });
